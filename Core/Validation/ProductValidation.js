@@ -10,7 +10,11 @@ module.exports.addProductValidation = [
   body("quantity").isInt().withMessage("Product Quantity must be Number"),
   body("price").isInt().withMessage("Product Price must be Number"),
   body("img").isString().withMessage("Invalid Image"),
-  body("categories").isArray().withMessage("Product should be in Categoreies"),
+  body("categories")
+    .isIn(["Accessories", "Chair", "Decoration", "Furniture", "Table"])
+    .withMessage(
+      "Product should be in Categoreies : Accessories,Chair,Decoration,Furniture,Table"
+    ),
 ];
 module.exports.updateProductValidation = [
   body("title")
@@ -31,8 +35,10 @@ module.exports.updateProductValidation = [
   body("img").optional().isString().withMessage("Invalid Image"),
   body("categories")
     .optional()
-    .isArray()
-    .withMessage("Product should be in Categoreies"),
+    .isIn(["Accessories", "Chair", "Decoration", "Furniture", "Table"])
+    .withMessage(
+      "Product should be in Categoreies : Accessories,Chair,Decoration,Furniture,Table"
+    ),
 ];
 module.exports.deleteProductValidation = [
   body("_id").isInt().withMessage("Product Id should be Entered"),
