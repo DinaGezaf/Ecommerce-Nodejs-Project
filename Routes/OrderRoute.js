@@ -13,8 +13,18 @@ OrderRoute.route("/orders")
   .all(authorizationMW.checkAdminAndUser)
   .get(controller.getAllOrders)
   .post(addOrderValidation, checkValidation, controller.addOrder)
-  .patch(updateOrderValidation, checkValidation, controller.updateOrder)
-  .delete(deleteOrderValidation, checkValidation, controller.deleteOrder);
+  OrderRoute.patch(
+    "/orders/:id",
+    updateOrderValidation,
+    checkValidation,
+    controller.updateOrder
+  );
+  OrderRoute.delete(
+    "/orders/:id",
+    deleteOrderValidation,
+    checkValidation,
+    controller.deleteOrder
+  );
 
 OrderRoute.get(
   "/orders/:id",
@@ -22,10 +32,5 @@ OrderRoute.get(
   checkValidation,
   controller.getUserOrders
 );
-OrderRoute.get(
-  "/income",
-  authorizationMW.checkAdmin,
-  checkValidation,
-  controller.getMonthlySales
-);
+
 module.exports = OrderRoute;

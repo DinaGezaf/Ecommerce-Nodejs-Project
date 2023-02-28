@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number },
 });
 const OrderSchema = new mongoose.Schema({
-  userid: { type: mongoose.Types.ObjectId, required: true },
+  id: { type: Number },
   products: [ProductSchema],
   amount: { type: Number, required: true },
   address: new mongoose.Schema({

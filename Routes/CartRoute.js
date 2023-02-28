@@ -9,7 +9,7 @@ const checkValidation = require("../Core/Validation/CheckValidation");
 const authorizationMW = require("../Core/Authorization");
 const CartRoute = express.Router();
 
-CartRoute.route("/orders")
+CartRoute.route("/cart")
   .get(authorizationMW.checkAdmin, controller.getAllCarts)
   .post(
     authorizationMW.checkAdminAndUser,
@@ -17,22 +17,24 @@ CartRoute.route("/orders")
     checkValidation,
     controller.addCart
   )
-  .patch(
+  CartRoute.patch(
+    "/cart/:id",
     authorizationMW.checkAdminAndUser,
     updateCartValidation,
     checkValidation,
     controller.updateCart
-  )
-  .delete(
-    authorizationMW.checkAdmin,
+  );
+  CartRoute.delete(
+    "/cart/:id",
+    authorizationMW.checkAdminAndUser,
     deleteCartValidation,
     checkValidation,
     controller.deleteCart
   );
 
 CartRoute.get(
-  "/orders/:id",
-  authorizationMW.checkAdmin,
+  "/cart/:id",
+  authorizationMW.checkAdminAndUser,
   checkValidation,
   controller.getUserOrders
 );

@@ -1,14 +1,8 @@
 const mongoose = require("mongoose");
+const ProductSchema = require("./ProductModel");
 
 const CartSchema = new mongoose.Schema({
-  userid: { type: mongoose.Types.ObjectId, required: true },
-  products: [
-    new mongoose.Schema({
-      productid: { type: Number },
-      quantity: { type: Number, default: 1 },
-      price: { type: Number },
-    }),
-  ],
+  product: [{type:ProductSchema}],
 });
 
 mongoose.model("cart", CartSchema);

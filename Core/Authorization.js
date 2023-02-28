@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 module.exports = (request, response, next) => {
   try {
     const token = request.get('authorization').split(' ')[1]
+
     const decodedToken = jwt.verify(token, process.env.SECRETKEY)
     request.role = decodedToken.role
     request.id = decodedToken.id

@@ -1,7 +1,7 @@
-const { body } = require("express-validator");
+const { body,param } = require("express-validator");
 
 module.exports.addOrderValidation = [
-  body("userid").isMongoId().withMessage("User Id should be ObjectId"),
+  body("id").isInt().withMessage("User Id should be ObjectId"),
   body("products").isArray().withMessage("Products should be Array"),
   body("products.*").isObject().withMessage("Product should be Object"),
   body("products.*.productid")
@@ -22,9 +22,9 @@ module.exports.addOrderValidation = [
     .withMessage("Address Building should be Number"),
 ];
 module.exports.updateOrderValidation = [
-  body("userid")
+  body("id")
     .optional()
-    .isMongoId()
+    .isInt()
     .withMessage("User Id should be ObjectId"),
   body("products").optional().isArray().withMessage("Products should be Array"),
   body("products.*")
@@ -59,5 +59,5 @@ module.exports.updateOrderValidation = [
     .withMessage("Address Building should be Number"),
 ];
 module.exports.deleteOrderValidation = [
-  body("_id").isMongoId().withMessage("Order Id should be Entered"),
+  param("id").isInt().withMessage("Order Id should be Entered"),
 ];

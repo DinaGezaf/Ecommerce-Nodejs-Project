@@ -15,7 +15,7 @@ module.exports.getAllCarts = (request, response, next) => {
 
 ////Get User Carts
 module.exports.getUserOrders = (request, response, next) => {
-  CartSchema.findOne({ userid: request.params.userid })
+  CartSchema.findOne({ _id: request.params.id })
     .then((data) => {
       if (data == null) {
         throw new Error("User doesn't have a Cart");
@@ -31,8 +31,8 @@ module.exports.getUserOrders = (request, response, next) => {
 ////Add New Cart
 module.exports.addCart = (request, response, next) => {
   let CartObject = new CartSchema({
-    userid: request.body.userid,
-    products: request.body.products,
+    _id: request.body._id,
+    product: request.body.product,
   });
 
   CartObject.save()
@@ -48,10 +48,10 @@ module.exports.addCart = (request, response, next) => {
 module.exports.updateCart = (request, response, next) => {
   let CartObject = {
     userid: request.body.userid,
-    products: request.body.products,
+    product: request.body.product,
   };
 
-  CartSchema.updateOne({ userid: request.body.userid }, { $set: CartObject })
+  CartSchema.updateOne({ _id: request.params.id }, { $set: CartObject })
     .then((data) => {
       response.status(201).json({ data: "Updated" });
     })
@@ -62,7 +62,7 @@ module.exports.updateCart = (request, response, next) => {
 
 ///Delete Cart
 module.exports.deleteCart = (request, response, next) => {
-  CartSchema.deleteOne({ _id: request.body._id })
+  CartSchema.deleteOne({ _id: request.params.id })
     .then((data) => {
       response.status(200).json({ data: "Deleted" });
     })

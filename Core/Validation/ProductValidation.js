@@ -1,11 +1,7 @@
-const { body } = require("express-validator");
+const { body ,param} = require("express-validator");
 
 module.exports.addProductValidation = [
-  body("title")
-    .isAlpha()
-    .withMessage("Product Title should be String")
-    .isLength({ min: 3, max: 15 })
-    .withMessage("Product Title should be less than 15"),
+  body("title").isString().withMessage("Product Title should be String"),
   body("desc").isString().withMessage("Product Description should be String"),
   body("quantity").isInt().withMessage("Product Quantity must be Number"),
   body("price").isInt().withMessage("Product Price must be Number"),
@@ -19,10 +15,8 @@ module.exports.addProductValidation = [
 module.exports.updateProductValidation = [
   body("title")
     .optional()
-    .isAlpha()
-    .withMessage("Product Title should be String")
-    .isLength({ min: 3, max: 15 })
-    .withMessage("Product Title should be less than 15"),
+    .isString()
+    .withMessage("Product Title should be String"),
   body("desc")
     .optional()
     .isString()
@@ -41,5 +35,5 @@ module.exports.updateProductValidation = [
     ),
 ];
 module.exports.deleteProductValidation = [
-  body("_id").isInt().withMessage("Product Id should be Entered"),
+  param("id").isInt().withMessage("Product Id should be Entered"),
 ];

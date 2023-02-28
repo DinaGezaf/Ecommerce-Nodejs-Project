@@ -14,7 +14,7 @@ module.exports.getAllProducts = (request, response, next) => {
 };
 /////Get Product By Id
 module.exports.getProductById = (request, response, next) => {
-  ProductSchema.findOne({ id: request.params.id })
+  ProductSchema.findOne({ _id: request.params.id })
     .then((data) => {
       if (data == null) {
         throw new Error("Product doen't exist");
@@ -54,8 +54,11 @@ module.exports.updateProduct = (request, response, next) => {
     img: request.body.img,
     categories: request.body.categories,
   };
-  ProductSchema.updateOne({ _id: request.body._id }, { $set: ProductObject })
+  console.log(request.params.id);
+
+  ProductSchema.updateOne({ _id: request.params.id }, { $set: ProductObject })
     .then((data) => {
+
       response.status(201).json({ data: "Updated" });
     })
     .catch((error) => {
@@ -64,7 +67,7 @@ module.exports.updateProduct = (request, response, next) => {
 };
 ///Delete Product
 module.exports.deleteProduct = (request, response, next) => {
-  ProductSchema.deleteOne({ _id: request.body._id })
+  ProductSchema.deleteOne({ _id: request.params.id })
     .then(() => {
       response.status(200).json({ data: "Deleted" });
     })

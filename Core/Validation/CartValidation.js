@@ -1,42 +1,37 @@
-const { body } = require("express-validator");
+const { body ,param} = require("express-validator");
 
 module.exports.addCartValidation = [
-  body("userid").isMongoId().withMessage("User Id should be ObjectId"),
-  body("products").isArray().withMessage("Products should be Array"),
-  body("products.*").isObject().withMessage("Product should be Object"),
-  body("products.*.productid")
+  body("product").isArray().withMessage("Product should be Object"),
+  body("product.*").isObject().withMessage("Product should be Object"),
+  body("product.*.productid")
     .isInt()
     .withMessage("Product Id should be Number"),
-  body("products.*.quantity")
+  body("product.*.img").isString().withMessage("Product Image required"),
+  body("product.*.quantity")
     .isInt()
     .withMessage("Product Quantity should be Number"),
-  body("products.*.price")
-    .isInt()
-    .withMessage("Product Price should be Number"),
+  body("product.*.price").isInt().withMessage("Product Price should be Number"),
 ];
 module.exports.updateCartValidation = [
-  body("userid")
-    .optional()
-    .isMongoId()
-    .withMessage("User Id should be ObjectId"),
-  body("products").optional().isArray().withMessage("Products should be Array"),
-  body("products.*")
-    .optional()
-    .isObject()
-    .withMessage("Product should be Object"),
-  body("products.*.productid")
+  body("product").optional().isArray().withMessage("Product should be Object"),
+  body("product.*").optional().isObject().withMessage("Product should be Object"),
+  body("product.*.productid")
     .optional()
     .isInt()
     .withMessage("Product Id should be Number"),
-  body("products.*.quantity")
+  body("product.*.img")
+    .optional()
+    .isString()
+    .withMessage("Product Image required"),
+  body("product.*.quantity")
     .optional()
     .isInt()
     .withMessage("Product Quantity should be Number"),
-  body("products.*.price")
+  body("product.*.price")
     .optional()
     .isInt()
     .withMessage("Product Price should be Number"),
 ];
 module.exports.deleteCartValidation = [
-  body("_id").isMongoId().withMessage("Cart Id should be Entered"),
+  param("_id").isMongoId().withMessage("Cart Id should be Entered"),
 ];

@@ -9,26 +9,27 @@ const checkValidation = require('./../Core/Validation/CheckValidation')
 const authorizationMW = require('./../Core/Authorization')
 const UserRoute = express.Router()
 
-UserRoute.route('/users')
+UserRoute.route("/users")
   .get(authorizationMW.checkAdmin, controller.getAllUsers)
   .post(
     authorizationMW.checkAdmin,
     addUserValidation,
     checkValidation,
-    controller.addUser,
+    controller.addUser
   )
-  .patch(
+  UserRoute.patch(
+    "/users/:id",
     authorizationMW.checkAdminAndUser,
     updateUserValidation,
     checkValidation,
-    controller.updateUser,
-  )
-  .delete(
+    controller.updateUser
+)
+UserRoute.delete(
+    "/users/:id",
     authorizationMW.checkAdmin,
-    deleteUserValidation,
     checkValidation,
-    controller.deleteUser,
-  )
+    controller.deleteUser
+  );
 
 UserRoute.get(
   '/users/:id',

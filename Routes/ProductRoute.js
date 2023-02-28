@@ -6,27 +6,22 @@ const {
   deleteProductValidation,
 } = require("./../Core/Validation/ProductValidation");
 const checkValidation = require("./../Core/Validation/CheckValidation");
-const authorizationMW = require("./../Core/Authorization");
+const authorizationMW = require("../Core/Authorization");
 const ProductRoute = express.Router();
 
 ProductRoute.route("/products")
-  .get(
-    authorizationMW.checkAdminAndUser,
-    controller.getAllProducts
-  )
-  .post(
-    authorizationMW.checkAdmin,
-    addProductValidation,
-    checkValidation,
-    controller.addProduct
-  )
-  .patch(
-    authorizationMW.checkAdmin,
-    updateProductValidation,
-    checkValidation,
-    controller.updateProduct
-  )
-  .delete(
+  .all(authorizationMW.checkAdmin)
+  .get(checkValidation, controller.getAllProducts)
+  .post(addProductValidation, checkValidation, controller.addProduct)
+ ProductRoute.patch(
+   "/products/:id",
+   authorizationMW.checkAdmin,
+   updateProductValidation,
+   checkValidation,
+   controller.updateProduct
+ );
+  ProductRoute.delete(
+    "/products/:id",
     authorizationMW.checkAdmin,
     deleteProductValidation,
     checkValidation,
@@ -35,8 +30,9 @@ ProductRoute.route("/products")
 
 ProductRoute.get(
   "/products/:id",
-  authorizationMW.checkAdminAndUser,
+  authorizationMW.checkAdmin,
   checkValidation,
   controller.getProductById
 );
+
 module.exports = ProductRoute;

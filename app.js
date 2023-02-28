@@ -8,7 +8,7 @@ const OrderRoute = require("./Routes/OrderRoute");
 const CartRoute = require("./Routes/CartRoute");
 const authenticationRoute = require("./Routes/AuthenticationRoute");
 const authorizationMW = require("./Core/Authorization");
-
+const cors = require("cors");
 const server = express();
 let port = process.env.PORT || 8080;
 
@@ -25,11 +25,14 @@ mongoose
     console.log("DB Error .." + error);
   });
 
+server.use(cors());
+server.options("*", cors());
+
 server.use(express.json());
 server.use(authenticationRoute);
 server.use(authorizationMW);
-server.use(UserRoute);
 server.use(ProductRoute);
+server.use(UserRoute);
 server.use(OrderRoute);
 server.use(CartRoute);
 
